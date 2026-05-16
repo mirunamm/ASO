@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ToDoListAplication.Models.ToDoItem>
+
+@{
+    ViewData["Title"] = "Lista mea TODO";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Aplicație TODO</h2>
+
+            <form asp-action="Create" method="post" class="input-group mb-3">
+                <input type="text" name="title" class="form-control" placeholder="Adaugă o sarcină nouă..." required />
+                <button class="btn btn-primary" type="submit">Adaugă</button>
+            </form>
+
+            <ul class="list-group">
+                @foreach (var item in Model)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <form asp-action="ToggleComplete" method="post" class="me-2">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <input type="checkbox" class="form-check-input" checked="@item.IsCompleted" onclick="this.form.submit()" />
+                            </form>
+
+                            <span class="@(item.IsCompleted ? "text-decoration-line-through text-muted" : "")">
+                                @item.Title
+                            </span>
+                        </div>
+
+                        <form asp-action="Delete" method="post" class="m-0">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Șterge</button>
+                        </form>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
